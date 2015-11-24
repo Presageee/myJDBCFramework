@@ -62,7 +62,7 @@ public class Connections implements MethodSet{
     public List<?> query(String sql, Mapping mapping) throws SQLException{
         preStat = conn.prepareStatement(sql);
         rs = preStat.executeQuery();
-        List<Object> list = new ArrayList<>();
+        List<Object> list = new ArrayList<Object>();
         while(rs.next()){
             list.add(mapping.tranform(rs));
         }
@@ -73,7 +73,7 @@ public class Connections implements MethodSet{
     public List<?> query(String sql, Object[] params, Mapping mapping) throws SQLException{
         preStat = getPreparedStatement(sql, params);
         rs = preStat.executeQuery();
-        List<Object> list = new ArrayList<>();
+        List<Object> list = new ArrayList<Object>();
         while(rs.next()){
             list.add(mapping.tranform(rs));
         }

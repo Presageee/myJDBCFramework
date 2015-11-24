@@ -1,5 +1,6 @@
 package org.jdbcframework.properties;
 
+import org.jdbcframework.base.ConnectionFactoryBoss;
 import org.jdbcframework.base.ConnectionFactoryBuilder;
 
 import java.io.BufferedInputStream;
@@ -11,6 +12,10 @@ import java.util.Properties;
  * Created by LJT on 2015/11/23.
  */
 public class PropertiesLoad {
+    public static void config(String path){
+        ConnectionFactoryBoss.path = path;
+    }
+
     public void propertiesLoad(String path) throws Exception{
         Properties properties = new Properties();
         String tmppath = System.getProperty("user.dir");
