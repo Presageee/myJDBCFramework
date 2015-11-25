@@ -3,12 +3,8 @@ package org.jdbcframework.base;
 import org.jdbcframework.classmap.Mapping;
 import org.jdbcframework.transaction.Transaction;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.*;
+import java.util.*;
 
 
 /**
@@ -76,6 +72,42 @@ public class Connections implements MethodSet{
         List<Object> list = new ArrayList<Object>();
         while(rs.next()){
             list.add(mapping.tranform(rs));
+        }
+        return list;
+    }
+
+    @Override
+    public List<Map<String, Object>> queryForMapList(String sql) throws SQLException {
+        preStat = conn.prepareStatement(sql);
+        rs = preStat.executeQuery();
+        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+        Map<String, Object> map = null;
+        ResultSetMetaData rsm = rs.getMetaData();
+        int cnt = rsm.getColumnCount();
+        while(rs.next()){
+            map = new HashMap<String, Object>(cnt);
+            for(int i = 0; i < cnt; i++){
+             map.put(rsm.getColumnName(i), rs.getObject(i));
+            }
+            list.add(map);
+        }
+        return list;
+    }
+
+    @Override
+    public List<Map<String, Object>> queryForMapList(String sql, Object[] params) throws SQLException {
+        preStat = getPreparedStatement(sql, params);
+        rs = preStat.executeQuery();
+        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+        Map<String, Object> map = null;
+        ResultSetMetaData rsm = rs.getMetaData();
+        int cnt = rsm.getColumnCount();
+        while(rs.next()){
+            map = new HashMap<String, Object>(cnt);
+            for(int i = 0; i < cnt; i++){
+                map.put(rsm.getColumnName(i), rs.getObject(i));
+            }
+            list.add(map);
         }
         return list;
     }

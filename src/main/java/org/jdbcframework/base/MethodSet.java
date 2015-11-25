@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by LJT on 2015/11/23.
@@ -54,6 +55,21 @@ public interface MethodSet {
      */
     public abstract List<?> query(String sql, Object[] params, Mapping mapping) throws SQLException;
 
+    /**
+     * common select
+     * @param sql sql statement
+     * @return list of map
+     * @throws SQLException
+     */
+    public abstract List<Map<String, Object>> queryForMapList(String sql) throws SQLException;
+    /**
+     * conditional select
+     * @param sql sql statement
+     * @param params param list
+     * @return list of map
+     * @throws SQLException
+     */
+    public abstract List<Map<String, Object>> queryForMapList(String sql,  Object[] params) throws SQLException;
     /**
      * insert ... select ...
      * @param sql sql statement
