@@ -1,8 +1,8 @@
 # myJDBCFramework
-This is a easy JDBC Framework(based mysql).It is Built by gradle.
+This is a easy JDBC Framework.It is Built by gradle.
 
 ## Environment
-IntelliJ IDEA 14.1.4 + jdk1.8_11 + mysql-5.1.8 + gradle 2.2
+IntelliJ IDEA 14.1.4 + jdk1.8_11 + gradle 2.2
 
 
 ## QuickStart
