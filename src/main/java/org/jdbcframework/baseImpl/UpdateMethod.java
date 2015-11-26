@@ -11,7 +11,7 @@ public interface UpdateMethod {
      * @param sql sql statement
      * @return int : bool
      */
-    public abstract int insert(String sql) throws SQLException;
+    public abstract int insert() throws SQLException;
 
     /**
      * common insert
@@ -19,14 +19,14 @@ public interface UpdateMethod {
      * @param params param list
      * @return int : bool
      */
-    public abstract int insert(String sql, Object[] params) throws SQLException;
+    public abstract int insertParams() throws SQLException;
 
     /**
      * common delete
      * @param sql sql statement
      * @return int : bool
      */
-    public abstract int delete(String sql) throws SQLException;
+    public abstract int delete() throws SQLException;
 
     /**
      * conditional delete
@@ -34,14 +34,14 @@ public interface UpdateMethod {
      * @param params param list
      * @return int : bool
      */
-    public abstract int delete(String sql, Object[] params) throws SQLException;
+    public abstract int deleteParams() throws SQLException;
 
     /**
      * common update
      * @param sql statement
      * @return int : bool
      */
-    public abstract int update(String sql) throws SQLException;
+    public abstract int update() throws SQLException;
 
     /**
      * common update
@@ -49,5 +49,5 @@ public interface UpdateMethod {
      * @param params param list
      * @return int : bool
      */
-    public abstract int update(String sql, Object[] params) throws SQLException;
+    public abstract int updateParams() throws SQLException;
 }

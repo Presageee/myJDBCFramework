@@ -34,7 +34,7 @@ public class Query implements QueryMethod {
         this.params = params;
     }
     @Override
-    public List<?> query(String sql, Mapping mapping) throws SQLException{
+    public List<?> query(Mapping mapping) throws SQLException{
         preStat = conn.prepareStatement(sql);
         rs = preStat.executeQuery();
         List<Object> list = new ArrayList<Object>();
@@ -45,8 +45,8 @@ public class Query implements QueryMethod {
     }
 
     @Override
-    public List<?> query(String sql, Object[] params, Mapping mapping) throws SQLException{
-        preStat = getPreparedStatement(sql, params);
+    public List<?> queryByParams(Mapping mapping) throws SQLException{
+        preStat = getPreparedStatement();
         rs = preStat.executeQuery();
         List<Object> list = new ArrayList<Object>();
         while(rs.next()){
@@ -56,7 +56,7 @@ public class Query implements QueryMethod {
     }
 
     @Override
-    public List<Map<String, Object>> queryForMapList(String sql) throws SQLException {
+    public List<Map<String, Object>> queryForMapList() throws SQLException {
         preStat = conn.prepareStatement(sql);
         rs = preStat.executeQuery();
         List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
@@ -74,8 +74,8 @@ public class Query implements QueryMethod {
     }
 
     @Override
-    public List<Map<String, Object>> queryForMapList(String sql, Object[] params) throws SQLException {
-        preStat = getPreparedStatement(sql, params);
+    public List<Map<String, Object>> queryByParamsForMapList() throws SQLException {
+        preStat = getPreparedStatement();
         rs = preStat.executeQuery();
         List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
         Map<String, Object> map = null;
@@ -91,7 +91,7 @@ public class Query implements QueryMethod {
         return list;
     }
 
-    private PreparedStatement getPreparedStatement(String sql, Object[] params) throws SQLException{
+    private PreparedStatement getPreparedStatement() throws SQLException{
         PreparedStatement tmpPreStat= conn.prepareStatement(sql);
         for(int i = 0; i < params.length; i++){
             tmpPreStat.setObject(i+1, params[i]);
@@ -100,15 +100,15 @@ public class Query implements QueryMethod {
     }
 
     @Override
-    public ResultSet queryOriginal(String sql) throws SQLException{
+    public ResultSet OriginalQuery() throws SQLException{
         preStat = conn.prepareStatement(sql);
         rs = preStat.executeQuery();
         return rs;
     }
 
     @Override
-    public ResultSet queryOriginal(String sql, Object[] params) throws SQLException{
-        preStat = getPreparedStatement(sql, params);
+    public ResultSet OriginalQueryByParams() throws SQLException{
+        preStat = getPreparedStatement();
         rs = preStat.executeQuery();
         return rs;
     }

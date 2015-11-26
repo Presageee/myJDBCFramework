@@ -32,7 +32,7 @@ public class Update implements UpdateMethod{
         this.params = params;
     }
 
-    private PreparedStatement getPreparedStatement(String sql, Object[] params) throws SQLException{
+    private PreparedStatement getPreparedStatement() throws SQLException{
         PreparedStatement tmpPreStat= conn.prepareStatement(sql);
         for(int i = 0; i < params.length; i++){
             tmpPreStat.setObject(i+1, params[i]);
@@ -41,44 +41,44 @@ public class Update implements UpdateMethod{
     }
 
     @Override
-    public int insert(String sql) throws SQLException {
+    public int insert() throws SQLException {
         preStat = conn.prepareStatement(sql);
         int num = preStat.executeUpdate();
         return num;
     }
 
     @Override
-    public int insert(String sql, Object[] params) throws SQLException{
-        preStat = getPreparedStatement(sql, params);
+    public int insertParams() throws SQLException{
+        preStat = getPreparedStatement();
         int num = preStat.executeUpdate();
         return num;
 
     }
 
     @Override
-    public int delete(String sql) throws SQLException{
+    public int delete() throws SQLException{
         preStat = conn.prepareStatement(sql);
         int num = preStat.executeUpdate();
         return num;
     }
 
     @Override
-    public int delete(String sql, Object[] params) throws SQLException {
-        preStat = getPreparedStatement(sql, params);
+    public int deleteParams() throws SQLException {
+        preStat = getPreparedStatement();
         int num = preStat.executeUpdate();
         return num;
     }
 
     @Override
-    public int update(String sql)throws SQLException{
+    public int update()throws SQLException{
         preStat = conn.prepareStatement(sql);
         int num = preStat.executeUpdate();
         return num;
     }
 
     @Override
-    public int update(String sql, Object[] params) throws SQLException {
-        preStat = getPreparedStatement(sql, params);
+    public int updateParams() throws SQLException {
+        preStat = getPreparedStatement();
         int num = preStat.executeUpdate();
         return num;
     }

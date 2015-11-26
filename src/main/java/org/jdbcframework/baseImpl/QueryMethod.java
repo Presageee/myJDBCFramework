@@ -17,7 +17,7 @@ public interface QueryMethod {
      * @param mapping class mapping
      * @return List data list
      */
-    public abstract List<?> query(String sql, Mapping mapping) throws SQLException;
+    public abstract List<?> query( Mapping mapping) throws SQLException;
 
     /**
      * conditional select
@@ -26,7 +26,7 @@ public interface QueryMethod {
      * @param mapping class mapping
      * @return List :data list
      */
-    public abstract List<?> query(String sql, Object[] params, Mapping mapping) throws SQLException;
+    public abstract List<?> queryByParams(Mapping mapping) throws SQLException;
 
     /**
      * common select
@@ -34,7 +34,7 @@ public interface QueryMethod {
      * @return list of map
      * @throws SQLException
      */
-    public abstract List<Map<String, Object>> queryForMapList(String sql) throws SQLException;
+    public abstract List<Map<String, Object>> queryForMapList() throws SQLException;
 
     /**
      * conditional select
@@ -43,14 +43,14 @@ public interface QueryMethod {
      * @return list of map
      * @throws SQLException
      */
-    public abstract List<Map<String, Object>> queryForMapList(String sql,  Object[] params) throws SQLException;
+    public abstract List<Map<String, Object>> queryByParamsForMapList() throws SQLException;
 
     /**
      * common select
      * @param sql sql statement
      * @return ResultSet
      */
-    public abstract ResultSet queryOriginal(String sql) throws SQLException;
+    public abstract ResultSet OriginalQuery() throws SQLException;
 
     /**
      * conditional select
@@ -58,5 +58,5 @@ public interface QueryMethod {
      * @param params param list
      * @return ResultSet
      */
-    public abstract ResultSet queryOriginal(String sql, Object[] params) throws SQLException;
+    public abstract ResultSet OriginalQueryByParams() throws SQLException;
 }
