@@ -1,7 +1,7 @@
 package org.jdbcframework.properties;
 
-import org.jdbcframework.base.ConnectionFactoryBoss;
-import org.jdbcframework.base.ConnectionFactoryBuilder;
+import org.jdbcframework.factory.ConnectionFactoryBoss;
+import org.jdbcframework.factory.ConnectionFactoryBuilder;
 
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
