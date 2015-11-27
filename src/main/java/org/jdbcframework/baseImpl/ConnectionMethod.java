@@ -74,19 +74,19 @@ public interface ConnectionMethod {
      * @param obj pojo object
      * @throws SQLException
      */
-    public abstract void save(Object obj) throws SQLException;
+    public abstract void save(Object obj) throws Exception;
 
     /**
      * delete obj
      * @param obj pojo object
      * @throws SQLException
      */
-    public abstract void delete(Object obj) throws SQLException;
+    public abstract void delete(Object obj) throws Exception;
 
     /**
      * update obj
      * @param obj pojo object
      * @throws SQLException
      */
-    public abstract void update(Object obj) throws SQLException;
+    public abstract void update(Object obj) throws Exception;
 }

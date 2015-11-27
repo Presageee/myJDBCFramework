@@ -1,6 +1,7 @@
 package org.jdbcframework.factory;
 
 import org.jdbcframework.base.Connections;
+import org.jdbcframework.util.CommandUtil;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -72,6 +73,6 @@ public class ConnectionFactory {
     }
 
     public Connections getConnections() throws SQLException{
-        return new Connections(getConnection());
+        return new Connections(getConnection(), new CommandUtil());
     }
 }

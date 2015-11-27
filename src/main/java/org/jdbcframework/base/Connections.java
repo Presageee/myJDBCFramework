@@ -2,7 +2,7 @@ package org.jdbcframework.base;
 
 import org.jdbcframework.baseImpl.ConnectionMethod;
 import org.jdbcframework.transaction.Transaction;
-import org.jdbcframework.util.StatementUtil;
+import org.jdbcframework.util.CommandUtil;
 
 import java.sql.*;
 
@@ -17,9 +17,11 @@ public class Connections implements ConnectionMethod {
 
     private ResultSet rs = null;
 
+    private CommandUtil util;
 
-    public Connections(Connection conn){
+    public Connections(Connection conn, CommandUtil util){
         this.conn = conn;
+        this.util = util;
     }
 
     public void close() throws SQLException {
@@ -74,23 +76,34 @@ public class Connections implements ConnectionMethod {
     }
 
     @Override
-    public void save(Object obj) throws SQLException {
-        String sql = StatementUtil.getSaveStatement(obj);
+    public void save(Object obj) throws Exception {
+        String sql = util.getSaveStatement(obj);
         preStat = conn.prepareStatement(sql);
+        setPreStatParams(preStat, util.createInsertParams(obj));
         preStat.executeUpdate();
     }
 
     @Override
-    public void delete(Object obj) throws SQLException {
-        String sql = StatementUtil.getDeleteStatement(obj);
+    public void delete(Object obj) throws Exception {
+        String sql = util.getDeleteStatement(obj);
         preStat = conn.prepareStatement(sql);
+        preStat.setObject(1, util.createPrimaryKeyParam(obj));
         preStat.executeUpdate();
     }
 
     @Override
-    public void update(Object obj) throws SQLException {
-        String sql = StatementUtil.getUpdateStatement(obj);
+    public void update(Object obj) throws Exception {
+        String sql = util.getUpdateStatement(obj);
         preStat = conn.prepareStatement(sql);
+        setPreStatParams(preStat, util.createUpdateParams(obj));
         preStat.executeUpdate();
+    }
+
+    private void setPreStatParams(PreparedStatement preStat, Object ... objects) throws Exception{
+        if(objects != null && objects.length > 0){
+            for(int i = 0; i < objects.length; i++){
+                preStat.setObject(i + 1, objects[i]);
+            }
+        }
     }
 }
