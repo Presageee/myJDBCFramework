@@ -1,9 +1,8 @@
 # myJDBCFramework
 This is a easy orm Framework.It is Built by gradle.(only support mysql)  
 
-## Environment
-my:IntelliJ IDEA 14.1.4 + jdk1.8_11 + gradle 2.2    
-you need jdk1.5+ gradle 2.2+  
+## Environment   
+need jdk1.5+ gradle 2.2+  
 
 
 ## QuickStart
