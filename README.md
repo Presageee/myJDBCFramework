@@ -30,6 +30,13 @@ ps:if you want to get list<entity> by query, you should build a entity and entit
 List<entity> list = (List<entity>)connections.createQuery(sql, (Object[])params).query(mapping);   
 
 
+**Entity support Annotation**    
+@TableName   
+@PrimaryKey    
+@Column    
+@NotColumn    
+@AutoColumn    
+
 ## *.Properties
 **base**:  
 driver, url, username, password  
