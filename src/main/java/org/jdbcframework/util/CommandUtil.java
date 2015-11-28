@@ -100,16 +100,29 @@ public class CommandUtil {
         return new String(sql);
     }
 
-    public String getQueryStatement(Class<? extends Object> clazz){
+    public String getQueryStatement(Class<? extends Object> clazz) throws Exception{
         StringBuffer sql = new StringBuffer();
         sql.append("select * from " + getTableName(clazz));
+        boolean isPrimaryKey = false;
+        Field[] fields = clazz.getDeclaredFields();
+        for(Field field : fields){
+            if(isPrimaryKey(field)){
+                isPrimaryKey = true;
+                sql.append(" where " + getFieldPrimaryKey(field) + "=?");
+                break;
+            }
+        }
+        if(!isPrimaryKey) throw new Exception("have not primary key");
         System.out.println(sql);
         return new String(sql);
     }
 
-    public String getQueryStatement(Class<? extends Object> clazz, String where){
+    public String getQueryStatement(Class<? extends Object> clazz, String condition){
         StringBuffer sql = new StringBuffer();
-        sql.append("select * from " + getTableName(clazz) + " " + where);
+        sql.append("select * from " + getTableName(clazz));
+        if(condition != null){
+            sql.append(" where" + condition);
+        }
         System.out.println(sql);
         return new String(sql);
     }

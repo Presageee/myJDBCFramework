@@ -68,7 +68,7 @@ public class ReflectTest extends TestCase{
     public void test4() throws Exception{
         connections = connectionFactory.getConnections();
         Transaction tx = connections.beginTransaction();
-        List<News> list = (List<News>)connections.query(News.class);
+        List<News> list = (List<News>)connections.queryAll(News.class, null);
         tx.commit();
         connections.close();
         for(int i = 0; i < list.size(); i++){

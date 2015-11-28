@@ -91,12 +91,12 @@ public interface ConnectionMethod {
     public abstract void update(Object obj) throws Exception;
 
     /**
-     * query entityName
+     * query by obj
      * @param clazz entity
      * @return list of entity
      * @throws Exception
      */
-    public abstract List<?> query(Class<? extends Object> clazz) throws Exception;
+    public abstract Object get(Class<? extends Object> clazz, Object obj) throws Exception;
 
     /**
      * query entity and set condition
@@ -105,5 +105,5 @@ public interface ConnectionMethod {
      * @return
      * @throws Exception
      */
-    public abstract List<?> query(Class<? extends Object> clazz, String where) throws Exception;
+    public abstract List<?> queryAll(Class<? extends Object> clazz, String where) throws Exception;
 }

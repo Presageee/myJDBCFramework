@@ -103,20 +103,20 @@ public class Connections implements ConnectionMethod {
     }
 
     @Override
-    public List<?> query(Class<? extends Object> clazz) throws Exception {
+    public Object get(Class<? extends Object> clazz, Object obj) throws Exception {
         String sql = util.getQueryStatement(clazz);
         preStat = conn.prepareStatement(sql);
+        preStat.setObject(1, obj);
         rs = preStat.executeQuery();
-        List<Object> list = new ArrayList<Object>();
-        while(rs.next()){
-            list.add(mapping(rs, clazz));
-        }
-        return list;
+        Object entity = null;
+        rs.next();
+        entity = mapping(rs, clazz);
+        return entity;
     }
 
     @Override
-    public List<?> query(Class<? extends Object> clazz, String condition) throws Exception {
-        String sql = util.getQueryStatement(clazz, condition);
+    public List<?> queryAll(Class<? extends Object> clazz, String condition) throws Exception {
+        String sql = util.getQueryStatement(clazz, null);
         preStat = conn.prepareStatement(sql);
         rs = preStat.executeQuery();
         List<Object> list = new ArrayList<Object>();
