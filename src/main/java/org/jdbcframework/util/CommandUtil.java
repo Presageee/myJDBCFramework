@@ -6,6 +6,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import static org.jdbcframework.util.TableUtil.*;
 
 /**
  * Created by LJT on 2015/11/25.
@@ -58,11 +59,11 @@ public class CommandUtil {
         for(Field field : fields){
             if(isNotColumn(field)) continue;
             if(isPrimaryKey(field)){
-                Object value = getFieldValue(obj,field);
+                //Object value = getFieldValue(obj,field);
                 whereValue.append("where " + getFieldPrimaryKey(field) + "=?");
             }else{
                 if(isAutoColumn(field)) continue;
-                Object value = getFieldValue(obj,field);
+                //Object value = getFieldValue(obj,field);
                 sql.append(temp + getFieldColumn(field) + "=?");
                 temp = ",";
             }
@@ -87,7 +88,7 @@ public class CommandUtil {
         StringBuffer whereValue = new StringBuffer();
         for(Field field : fields){
             if(isPrimaryKey(field)){
-                Object value = getFieldValue(obj, field);
+                //Object value = getFieldValue(obj, field);
                 whereValue.append("where " + getFieldPrimaryKey(field) + "=?");
                 break;
             }else{
@@ -99,105 +100,18 @@ public class CommandUtil {
         return new String(sql);
     }
 
-    /**
-     * if setValue at annotation,return value.else return ClassName
-     * @param clazz annotation class
-     * @return
-     */
-    private String getTableName(Class<? extends Object> clazz){
-        if("".equals(clazz.getAnnotation(TableName.class).value())){
-            return clazz.getName().substring(clazz.getName().lastIndexOf(".") + 1);
-        }else{
-            return clazz.getAnnotation(TableName.class).value();
-        }
+    public String getQueryStatement(Class<? extends Object> clazz){
+        StringBuffer sql = new StringBuffer();
+        sql.append("select * from " + getTableName(clazz));
+        System.out.println(sql);
+        return new String(sql);
     }
 
-    /**
-     * if setValue at annotation,return value.else return FieldName
-     * @param field annotation field
-     * @return
-     */
-    private String getFieldColumn(Field field){
-        Column column = field.getAnnotation(Column.class);
-        if(column != null){
-            if("".equals(column.value())){
-                return field.getName();
-            }else{
-                return column.value();
-            }
-        }
-        return null;
-    }
-
-    /**
-     * if setValue at annotation, return value, else return FieldName
-     * @param field
-     * @return
-     */
-    private String getFieldPrimaryKey(Field field){
-        PrimaryKey primaryKey = field.getAnnotation(PrimaryKey.class);
-        if(primaryKey != null){
-            if("".equals(primaryKey.value())){
-                return field.getName();
-            }else{
-                return primaryKey.value();
-            }
-        }
-        return null;
-    }
-    /**
-     * get field value by obj
-     * @param obj this.obj
-     * @param field obj.field
-     * @return field value
-     * @throws Exception
-     */
-    private Object getFieldValue(Object obj, Field field) throws Exception{
-        String first = field.getName().substring(0, 1).toUpperCase();
-        Method m = obj.getClass().getMethod("get" + first + field.getName().substring(1), new Class[]{});
-        return m.invoke(obj, new Object[] {});
-    }
-
-    /**
-     * is PrimaryKey?
-     * @param field annotation field
-     * @return
-     */
-    private boolean isPrimaryKey(Field field){
-        PrimaryKey primaryKey = field.getAnnotation(PrimaryKey.class);
-        if(primaryKey == null){
-            return false;
-        }else {
-            return true;
-        }
-    }
-
-    /**
-     * if AutoColumn?
-     * @param field annotation field
-     * @return
-     */
-    private boolean isAutoColumn(Field field){
-        AutoColumn autoColumn = field.getAnnotation(AutoColumn.class);
-        if(autoColumn == null){
-            return false;
-        }else{
-            return true;
-        }
-    }
-
-    /**
-     * if notColumn?
-     * @param field annotation field
-     * @return
-     */
-    private boolean isNotColumn(Field field){
-        NotColumn notColumn = field.getAnnotation(NotColumn.class);
-        if(notColumn == null){
-            return false;
-        }else{
-            return true;
-        }
+    public String getQueryStatement(Class<? extends Object> clazz, String where){
+        StringBuffer sql = new StringBuffer();
+        sql.append("select * from " + getTableName(clazz) + " " + where);
+        System.out.println(sql);
+        return new String(sql);
     }
 
     /**

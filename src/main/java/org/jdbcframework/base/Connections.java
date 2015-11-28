@@ -3,8 +3,11 @@ package org.jdbcframework.base;
 import org.jdbcframework.baseImpl.ConnectionMethod;
 import org.jdbcframework.transaction.Transaction;
 import org.jdbcframework.util.CommandUtil;
+import static org.jdbcframework.classmap.ReflectEntity.*;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -97,6 +100,30 @@ public class Connections implements ConnectionMethod {
         preStat = conn.prepareStatement(sql);
         setPreStatParams(preStat, util.createUpdateParams(obj));
         preStat.executeUpdate();
+    }
+
+    @Override
+    public List<?> query(Class<? extends Object> clazz) throws Exception {
+        String sql = util.getQueryStatement(clazz);
+        preStat = conn.prepareStatement(sql);
+        rs = preStat.executeQuery();
+        List<Object> list = new ArrayList<Object>();
+        while(rs.next()){
+            list.add(mapping(rs, clazz));
+        }
+        return list;
+    }
+
+    @Override
+    public List<?> query(Class<? extends Object> clazz, String condition) throws Exception {
+        String sql = util.getQueryStatement(clazz, condition);
+        preStat = conn.prepareStatement(sql);
+        rs = preStat.executeQuery();
+        List<Object> list = new ArrayList<Object>();
+        while(rs.next()){
+            list.add(mapping(rs, clazz));
+        }
+        return list;
     }
 
     private void setPreStatParams(PreparedStatement preStat, Object ... objects) throws Exception{

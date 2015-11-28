@@ -12,24 +12,25 @@ import org.junit.Before;
 
 import java.lang.reflect.Method;
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * Created by LJT on 2015/11/25.
  */
 public class ReflectTest extends TestCase{
-    //static ConnectionFactory connectionFactory;
-    //static Connections connections;
+    static ConnectionFactory connectionFactory;
+    static Connections connections;
     @Before
     public void setUp() throws  Exception{
-        //PropertiesLoad.config("/db.properties");
-        //connectionFactory = ConnectionFactoryBoss.getConnectionFactoryBuilderByBoss().getConnectionFactory();
+        PropertiesLoad.config("/db.properties");
+        connectionFactory = ConnectionFactoryBoss.getConnectionFactoryBuilderByBoss().getConnectionFactory();
     }
 
 /*    public void test1() throws Exception{
         connections = connectionFactory.getConnections();
         News n = new News();
-        n.setId(12344);
-        n.setUrl("http:12312313");
+        //n.setId(12344);
+        n.setUrl("http:12312313123233asdasd");
         n.setTitle("hhhahahah ");
         n.setTimestamp(new Timestamp(System.currentTimeMillis()));
         Transaction tx = connections.beginTransaction();
@@ -64,8 +65,14 @@ public class ReflectTest extends TestCase{
         connections.close();
     }*/
 
-    public void test4(){
-        News n2 = new News();
-        Methodset.getValue(n2);
+    public void test4() throws Exception{
+        connections = connectionFactory.getConnections();
+        Transaction tx = connections.beginTransaction();
+        List<News> list = (List<News>)connections.query(News.class);
+        tx.commit();
+        connections.close();
+        for(int i = 0; i < list.size(); i++){
+            System.out.println(list.get(i).getUrl());
+        }
     }
 }

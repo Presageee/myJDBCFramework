@@ -89,4 +89,21 @@ public interface ConnectionMethod {
      * @throws SQLException
      */
     public abstract void update(Object obj) throws Exception;
+
+    /**
+     * query entityName
+     * @param clazz entity
+     * @return list of entity
+     * @throws Exception
+     */
+    public abstract List<?> query(Class<? extends Object> clazz) throws Exception;
+
+    /**
+     * query entity and set condition
+     * @param clazz
+     * @param where
+     * @return
+     * @throws Exception
+     */
+    public abstract List<?> query(Class<? extends Object> clazz, String where) throws Exception;
 }
