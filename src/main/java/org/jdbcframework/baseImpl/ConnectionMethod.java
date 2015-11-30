@@ -1,7 +1,6 @@
 package org.jdbcframework.baseImpl;
 import org.jdbcframework.base.Query;
 import org.jdbcframework.base.Update;
-import org.jdbcframework.classmap.Mapping;
 import org.jdbcframework.transaction.Transaction;
 
 import java.sql.Connection;
@@ -9,7 +8,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by LJT on 2015/11/23.
@@ -21,7 +19,7 @@ public interface ConnectionMethod {
      * start transaction management
      * @return Transaciton transaction examples
      */
-    public abstract Transaction beginTransaction();
+    public abstract Transaction beginTransaction() throws SQLException;
 
     /**
      * select by sql statement
@@ -106,4 +104,5 @@ public interface ConnectionMethod {
      * @throws Exception
      */
     public abstract List<?> queryAll(Class<? extends Object> clazz, String where) throws Exception;
+
 }

@@ -49,11 +49,9 @@ public class ConnectionFactory {
         try{
             if(dataSource == null){
                 conn = DriverManager.getConnection(ConnectionFactoryBuilder.url, ConnectionFactoryBuilder.username, ConnectionFactoryBuilder.password);
-                conn.setAutoCommit(false);
                 return conn;
             }else{
                 conn = dataSource.getConnection();
-                conn.setAutoCommit(false);
                 return conn;
             }
         }catch (SQLException e){

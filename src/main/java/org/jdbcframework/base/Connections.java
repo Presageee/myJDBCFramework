@@ -35,7 +35,7 @@ public class Connections implements ConnectionMethod {
 
 
     @Override
-    public Transaction beginTransaction() {
+    public Transaction beginTransaction() throws SQLException{
         return new Transaction(conn);
     }
 

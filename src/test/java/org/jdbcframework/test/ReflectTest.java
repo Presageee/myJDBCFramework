@@ -1,6 +1,7 @@
 package org.jdbcframework.test;
 
 import junit.framework.*;
+import org.jdbcframework.base.Query;
 import org.jdbcframework.entity.Methodset;
 import org.jdbcframework.factory.ConnectionFactory;
 import org.jdbcframework.factory.ConnectionFactoryBoss;
@@ -65,7 +66,7 @@ public class ReflectTest extends TestCase{
         connections.close();
     }*/
 
-    public void test4() throws Exception{
+    /*public void test4() throws Exception{
         connections = connectionFactory.getConnections();
         Transaction tx = connections.beginTransaction();
         List<News> list = (List<News>)connections.queryAll(News.class, null);
@@ -73,6 +74,16 @@ public class ReflectTest extends TestCase{
         connections.close();
         for(int i = 0; i < list.size(); i++){
             System.out.println(list.get(i).getUrl());
+        }
+    }*/
+
+    public void testPageQuery() throws Exception{
+        connections = connectionFactory.getConnections();
+        Query query = connections.createQuery("select * from news");
+        List<News> list = (List<News>)query.getPageQuery(News.class, 1, 2);
+        connections.close();
+        for(int i = 0; i < list.size(); i++){
+            System.out.println(list.get(i).getTitle() + list.get(i).getUrl());
         }
     }
 }

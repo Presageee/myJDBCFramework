@@ -9,8 +9,9 @@ import java.sql.SQLException;
 public class Transaction {
     private Connection conn;
 
-    public Transaction(Connection conn){
+    public Transaction(Connection conn) throws SQLException{
         this.conn = conn;
+        conn.setAutoCommit(false);
     }
 
     public void commit() throws SQLException {
