@@ -4,6 +4,9 @@ This is a easy orm Framework.It is Built by gradle.(only support mysql)
 ## Environment   
 need jdk1.5+ gradle 2.2+  
 
+## Update
+
+Added caching
 
 ## QuickStart
 
@@ -21,9 +24,8 @@ need jdk1.5+ gradle 2.2+
 connections.update(entity);   
 
 
-
 **if you want to use sql,you should createQuery or createUpdate by connections.**        
-ps:if you want to get list<entity> by query, you should build a entity and entitymap(implements Mapping).    
+ 
 **exmple**   
 //query by params  
 List<entity> list = (List<entity>)connections.createQuery(sql, (Object[])params).query(mapping);   
