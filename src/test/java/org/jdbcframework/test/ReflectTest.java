@@ -1,8 +1,6 @@
 package org.jdbcframework.test;
 
 import junit.framework.*;
-import org.jdbcframework.base.Query;
-import org.jdbcframework.entity.Methodset;
 import org.jdbcframework.factory.ConnectionFactory;
 import org.jdbcframework.factory.ConnectionFactoryBoss;
 import org.jdbcframework.base.Connections;
@@ -11,9 +9,8 @@ import org.jdbcframework.properties.PropertiesLoad;
 import org.jdbcframework.transaction.Transaction;
 import org.junit.Before;
 
-import java.lang.reflect.Method;
 import java.sql.Timestamp;
-import java.util.List;
+
 
 /**
  * Created by LJT on 2015/11/25.
@@ -27,15 +24,19 @@ public class ReflectTest extends TestCase{
         connectionFactory = ConnectionFactoryBoss.getConnectionFactoryBuilderByBoss().getConnectionFactory();
     }
 
-/*    public void test1() throws Exception{
+    public void test1() throws Exception{
         connections = connectionFactory.getConnections();
         News n = new News();
-        //n.setId(12344);
+        n.setId(6);
         n.setUrl("http:12312313123233asdasd");
         n.setTitle("hhhahahah ");
         n.setTimestamp(new Timestamp(System.currentTimeMillis()));
         Transaction tx = connections.beginTransaction();
         connections.save(n);
+        int b = 3;
+        n.setUrl("1233213");
+        //connections.delete(n);
+        int a = 5;
         tx.commit();
         connections.close();
     }
@@ -43,15 +44,16 @@ public class ReflectTest extends TestCase{
     public void test2()throws Exception{
         connections = connectionFactory.getConnections();
         News n = new News();
-        n.setId(1);
+        n.setId(9);
         n.setUrl("http:12312313asdasdsadaas");
         n.setTitle("hhhahahah ");
         n.setTimestamp(new Timestamp(System.currentTimeMillis()));
         Transaction tx = connections.beginTransaction();
         connections.update(n);
+        n.setTitle("dashendaiwofei");
         tx.commit();
         connections.close();
-    }*/
+    }
 
 /*    public void test3() throws Exception{
         connections = connectionFactory.getConnections();
@@ -77,7 +79,7 @@ public class ReflectTest extends TestCase{
         }
     }*/
 
-    public void testPageQuery() throws Exception{
+/*    public void testPageQuery() throws Exception{
         connections = connectionFactory.getConnections();
         Query query = connections.createQuery("select * from news");
         List<News> list = (List<News>)query.getPageQuery(News.class, 1, 2);
@@ -85,5 +87,7 @@ public class ReflectTest extends TestCase{
         for(int i = 0; i < list.size(); i++){
             System.out.println(list.get(i).getTitle() + list.get(i).getUrl());
         }
-    }
+    }*/
+
+
 }

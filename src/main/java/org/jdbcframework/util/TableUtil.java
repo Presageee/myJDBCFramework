@@ -4,6 +4,7 @@ import org.jdbcframework.annotation.*;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Objects;
 
 /**
  * Created by LJT on 2015/11/28.
@@ -120,4 +121,5 @@ public class TableUtil {
         Method m = obj.getClass().getMethod("get" + first + field.getName().substring(1), new Class[]{});
         return m.invoke(obj, new Object[] {});
     }
+
 }
