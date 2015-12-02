@@ -109,27 +109,29 @@ public class Query implements QueryMethod {
     }
 
     @Override
-    public void queryByClass(Class<? extends Object> clazz) throws SQLException{
+    public List<?> queryByClass(Class<? extends Object> clazz) throws SQLException{
         preStat = conn.prepareStatement(sql);
         rs = preStat.executeQuery();
         list.clear();
         while(rs.next()){
             list.add(mapping(rs, clazz));
         }
+        return list;
     }
 
     @Override
-    public void queryByClassAndParams(Class<? extends Object> clazz) throws SQLException{
+    public List<?> queryByClassAndParams(Class<? extends Object> clazz) throws SQLException{
         preStat = getPreparedStatement();
         rs = preStat.executeQuery();
         list.clear();
         while(rs.next()){
             list.add(mapping(rs, clazz));
         }
+        return list;
     }
 
     @Override
-    public void queryForMapList() throws SQLException {
+    public List<Map<String, Object>> queryForMapList() throws SQLException {
         preStat = conn.prepareStatement(sql);
         rs = preStat.executeQuery();
         mapList.clear();
@@ -143,10 +145,11 @@ public class Query implements QueryMethod {
             }
             mapList.add(map);
         }
+        return mapList;
     }
 
     @Override
-    public void queryByParamsForMapList() throws SQLException {
+    public List<Map<String, Object>> queryByParamsForMapList() throws SQLException {
         preStat = getPreparedStatement();
         rs = preStat.executeQuery();
         mapList.clear();
@@ -160,6 +163,7 @@ public class Query implements QueryMethod {
             }
             mapList.add(map);
         }
+        return mapList;
     }
 
     @Override
@@ -178,15 +182,27 @@ public class Query implements QueryMethod {
 
     @Override
     public List<?> getPageQuery(Class<? extends Object> clazz, int page, int size) throws SQLException {
-        queryByClass(clazz);
         setPageAndSize(page, size);
-        return getList();
+        sql = pageUtil.getPageCmd(sql);
+        preStat = conn.prepareStatement(sql);
+        rs = preStat.executeQuery();
+        list.clear();
+        while(rs.next()){
+            list.add(mapping(rs, clazz));
+        }
+        return list;
     }
 
     @Override
     public List<?> getPageQueryByParams(Class<? extends Object> clazz, int page, int size) throws SQLException {
-        queryByClassAndParams(clazz);
         setPageAndSize(page, size);
-        return getList();
+        sql = pageUtil.getPageCmd(sql);
+        preStat = getPreparedStatement();
+        rs = preStat.executeQuery();
+        list.clear();
+        while(rs.next()){
+            list.add(mapping(rs, clazz));
+        }
+        return list;
     }
 }

@@ -1,9 +1,6 @@
 package org.jdbcframework.util;
 
-import org.jdbcframework.annotation.*;
-
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import static org.jdbcframework.util.TableUtil.*;
@@ -16,7 +13,7 @@ public class CommandUtil {
     /**
      * get insert sql
      * @param obj entity obj
-     * @return sql
+     * @return insert sql
      * @throws Exception
      */
     public String getSaveStatement(Object obj) throws Exception{
@@ -32,9 +29,9 @@ public class CommandUtil {
                 continue;
             params.append(temp + "?");
             if(!isPrimaryKey(field))
-                sql.append(temp + getFieldColumn(field));
+                sql.append(temp + getColumnFieldName(field));
             else
-                sql.append(temp + getFieldPrimaryKey(field));
+                sql.append(temp + getPrimaryKeyFieldName(field));
             temp = ",";
         }
         sql.append(") values(" + params + ")");
@@ -45,7 +42,7 @@ public class CommandUtil {
     /**
      * get update sql
      * @param obj entity obj
-     * @return sql
+     * @return update sql
      * @throws Exception
      */
     public String getUpdateStatement(Object obj) throws Exception{
@@ -60,11 +57,11 @@ public class CommandUtil {
             if(isNotColumn(field)) continue;
             if(isPrimaryKey(field)){
                 //Object value = getFieldValue(obj,field);
-                whereValue.append("where " + getFieldPrimaryKey(field) + "=?");
+                whereValue.append("where " + getPrimaryKeyFieldName(field) + "=?");
             }else{
                 if(isAutoColumn(field)) continue;
                 //Object value = getFieldValue(obj,field);
-                sql.append(temp + getFieldColumn(field) + "=?");
+                sql.append(temp + getColumnFieldName(field) + "=?");
                 temp = ",";
             }
         }
@@ -76,20 +73,19 @@ public class CommandUtil {
     /**
      * get delete sql
      * @param obj entity obj
-     * @return sql
+     * @return delete sql
      * @throws Exception
      */
     public String getDeleteStatement(Object obj) throws Exception{
         Class<? extends Object> entityClass = obj.getClass();
         StringBuffer sql = new StringBuffer();
-        String className = StringUtil.getLowerCase(entityClass.getName());
+        String className = getTableName(entityClass);
         sql.append("delete from " + className + " ");
         Field[] fields = entityClass.getDeclaredFields();
         StringBuffer whereValue = new StringBuffer();
         for(Field field : fields){
             if(isPrimaryKey(field)){
-                //Object value = getFieldValue(obj, field);
-                whereValue.append("where " + getFieldPrimaryKey(field) + "=?");
+                whereValue.append("where " + getPrimaryKeyFieldName(field) + "=?");
                 break;
             }else{
                 continue;
@@ -100,6 +96,12 @@ public class CommandUtil {
         return new String(sql);
     }
 
+    /**
+     * get query sql
+     * @param clazz entityClass
+     * @return query sql
+     * @throws Exception
+     */
     public String getQueryStatement(Class<? extends Object> clazz) throws Exception{
         StringBuffer sql = new StringBuffer();
         sql.append("select * from " + getTableName(clazz));
@@ -108,7 +110,7 @@ public class CommandUtil {
         for(Field field : fields){
             if(isPrimaryKey(field)){
                 isPrimaryKey = true;
-                sql.append(" where " + getFieldPrimaryKey(field) + "=?");
+                sql.append(" where " + getPrimaryKeyFieldName(field) + "=?");
                 break;
             }
         }
@@ -117,6 +119,12 @@ public class CommandUtil {
         return new String(sql);
     }
 
+    /**
+     * get query sql
+     * @param clazz entityClass
+     * @param condition primaryKey name
+     * @return query sql
+     */
     public String getQueryStatement(Class<? extends Object> clazz, String condition){
         StringBuffer sql = new StringBuffer();
         sql.append("select * from " + getTableName(clazz));

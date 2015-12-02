@@ -11,7 +11,7 @@ import java.util.Objects;
  */
 public class TableUtil {
     /**
-     * is PrimaryKey?
+     * if field is PrimaryKey,return true;
      * @param field annotation field
      * @return
      */
@@ -25,7 +25,7 @@ public class TableUtil {
     }
 
     /**
-     * if AutoColumn?
+     * if field is AutoColumn,return true;
      * @param field annotation field
      * @return
      */
@@ -39,7 +39,7 @@ public class TableUtil {
     }
 
     /**
-     * if notColumn?
+     * if field is notColumn return true;
      * @param field annotation field
      * @return
      */
@@ -66,10 +66,10 @@ public class TableUtil {
 
     /**
      * if setValue at annotation,return value.else return FieldName
-     * @param field annotation field
+     * @param field unnameable field
      * @return
      */
-    public final static String getFieldColumn(Field field){
+    public final static String getColumnFieldName(Field field){
         Column column = field.getAnnotation(Column.class);
         if(column != null){
             if("".equals(column.value())){
@@ -83,10 +83,10 @@ public class TableUtil {
 
     /**
      * if setValue at annotation, return value, else return FieldName
-     * @param field
+     * @param field  unnameable field
      * @return
      */
-    public final static String getFieldPrimaryKey(Field field){
+    public final static String getPrimaryKeyFieldName(Field field){
         PrimaryKey primaryKey = field.getAnnotation(PrimaryKey.class);
         if(primaryKey != null){
             if("".equals(primaryKey.value())){
@@ -98,7 +98,12 @@ public class TableUtil {
         return null;
     }
 
-    public final static String getFieldAutoColumn(Field field){
+    /**
+     * if setValue at annotation,return value, else return FieldName
+     * @param field unnameable field
+     * @return
+     */
+    public final static String getAutoColumnFieldName(Field field){
         AutoColumn autoColumn = field.getAnnotation(AutoColumn.class);
         if(autoColumn != null){
             if("".equals(autoColumn.value())){
@@ -108,18 +113,6 @@ public class TableUtil {
             }
         }
         return null;
-    }
-    /**
-     * get field value by obj
-     * @param obj this.obj
-     * @param field obj.field
-     * @return field value
-     * @throws Exception
-     */
-    public final static Object getFieldValue(Object obj, Field field) throws Exception{
-        String first = field.getName().substring(0, 1).toUpperCase();
-        Method m = obj.getClass().getMethod("get" + first + field.getName().substring(1), new Class[]{});
-        return m.invoke(obj, new Object[] {});
     }
 
 }

@@ -7,6 +7,12 @@ import static org.jdbcframework.util.TableUtil.*;
  * Created by LJT on 2015/11/28.
  */
 public class ReflectEntity {
+    /**
+     * reflect object for clazz
+     * @param rs database resultSet
+     * @param clazz Object class
+     * @return
+     */
     public static Object mapping(ResultSet rs, Class<? extends Object> clazz) {
         Field[] fields = clazz.getDeclaredFields();
         Object obj = null;
@@ -16,13 +22,13 @@ public class ReflectEntity {
                 if(!isNotColumn(field)){
                     if(isPrimaryKey(field)){
                         field.setAccessible(true);
-                        field.set(obj, rs.getObject(getFieldPrimaryKey(field)));
+                        field.set(obj, rs.getObject(getPrimaryKeyFieldName(field)));
                     }else if(isAutoColumn(field)){
                         field.setAccessible(true);
-                        field.set(obj, rs.getObject(getFieldAutoColumn(field)));
+                        field.set(obj, rs.getObject(getAutoColumnFieldName(field)));
                     }else{
                         field.setAccessible(true);
-                        field.set(obj, rs.getObject(getFieldColumn(field)));
+                        field.set(obj, rs.getObject(getColumnFieldName(field)));
                     }
                 }
             }

@@ -17,30 +17,33 @@ public class Transaction {
 
     private Connections connections;
 
-    //private PreparedStatement preState;
-
-    //private CommandUtil util;
-
-    //private Cache cache;
-
     public Transaction(Connection conn, Connections connections) throws SQLException{
         this.conn = conn;
         this.connections = connections;
-        //this.preState = preState;
-        //this.util = util;
-        //this.cache = cache;
         conn.setAutoCommit(false);
     }
 
+    /**
+     * commit transaction
+     * @throws Exception
+     */
     public void commit() throws Exception {
         analyzeMap();
         conn.commit();
     }
 
+    /**
+     * rollback transaction
+     * @throws SQLException
+     */
     public void rollback() throws SQLException{
         conn.rollback();
     }
 
+    /**
+     * analyze cache
+     * @throws Exception
+     */
     private void analyzeMap() throws Exception{
         for (int i = 0; i < connections.getCache().getIndex(); i++){
             String tmp = connections.getCache().getOptionByKey(i);

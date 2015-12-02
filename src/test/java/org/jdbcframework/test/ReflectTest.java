@@ -1,6 +1,7 @@
 package org.jdbcframework.test;
 
 import junit.framework.*;
+import org.jdbcframework.base.Query;
 import org.jdbcframework.factory.ConnectionFactory;
 import org.jdbcframework.factory.ConnectionFactoryBoss;
 import org.jdbcframework.base.Connections;
@@ -10,6 +11,7 @@ import org.jdbcframework.transaction.Transaction;
 import org.junit.Before;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 
 /**
@@ -24,7 +26,7 @@ public class ReflectTest extends TestCase{
         connectionFactory = ConnectionFactoryBoss.getConnectionFactoryBuilderByBoss().getConnectionFactory();
     }
 
-    public void test1() throws Exception{
+ /*   public void test1() throws Exception{
         connections = connectionFactory.getConnections();
         News n = new News();
         n.setId(6);
@@ -53,7 +55,7 @@ public class ReflectTest extends TestCase{
         n.setTitle("dashendaiwofei");
         tx.commit();
         connections.close();
-    }
+    }*/
 
 /*    public void test3() throws Exception{
         connections = connectionFactory.getConnections();
@@ -79,15 +81,15 @@ public class ReflectTest extends TestCase{
         }
     }*/
 
-/*    public void testPageQuery() throws Exception{
+    public void testPageQuery() throws Exception{
         connections = connectionFactory.getConnections();
         Query query = connections.createQuery("select * from news");
-        List<News> list = (List<News>)query.getPageQuery(News.class, 1, 2);
+        List<News> list = (List<News>)query.getPageQuery(News.class, 2, 2);
         connections.close();
         for(int i = 0; i < list.size(); i++){
             System.out.println(list.get(i).getTitle() + list.get(i).getUrl());
         }
-    }*/
+    }
 
 
 }

@@ -22,6 +22,11 @@ public class ConnectionFactory {
         setDataSource(dataSource);
     }
 
+    /**
+     * get private static connectionFactory
+     * @param dataSource connection pool
+     * @return singleton obj
+     */
     public static ConnectionFactory getConnectionFactory(DataSource dataSource){
         if(connectionFactory == null){
             synchronized (ConnectionFactory.class){
@@ -33,6 +38,12 @@ public class ConnectionFactory {
         return connectionFactory;
     }
 
+    /**
+     * get private static connectionFactory
+     * @param driver jdbc driver
+     * @return singleton obj
+     * @throws ClassNotFoundException
+     */
     public static ConnectionFactory getConnectionFactory(String driver) throws ClassNotFoundException{
         if(connectionFactory == null){
             synchronized (ConnectionFactory.class){
@@ -44,6 +55,10 @@ public class ConnectionFactory {
         return connectionFactory;
     }
 
+    /**
+     * get connection
+     * @return
+     */
     private Connection getConnection(){
         Connection conn = null;
         try{
@@ -62,14 +77,15 @@ public class ConnectionFactory {
 
     private DataSource dataSource = null;
 
-    public DataSource getDataSource() {
-        return dataSource;
-    }
-
     public void setDataSource(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
+    /**
+     * get Connections
+     * @return connections obj
+     * @throws SQLException
+     */
     public Connections getConnections() throws SQLException{
         return new Connections(getConnection(), new CommandUtil());
     }

@@ -23,10 +23,7 @@ public class Connections implements ConnectionMethod {
 
     private CommandUtil util;
 
-
     private Cache cache;
-
-    private Map<Object, Object> tmpSet = new HashMap<Object, Object>();
 
     public Connections(Connection conn, CommandUtil util){
         this.conn = conn;
@@ -182,14 +179,18 @@ public class Connections implements ConnectionMethod {
 
     @Override
     public Object get(Class<? extends Object> clazz, Object obj) throws Exception {
-        String sql = util.getQueryStatement(clazz);
-        preStat = conn.prepareStatement(sql);
-        preStat.setObject(1, obj);
-        rs = preStat.executeQuery();
-        Object entity = null;
-        rs.next();
-        entity = mapping(rs, clazz);
-        return entity;
+        if (cache.getCacheByKey((Integer)obj) != null){
+            return cache.getCacheByKey((Integer)obj);
+        }else {
+            String sql = util.getQueryStatement(clazz);
+            preStat = conn.prepareStatement(sql);
+            preStat.setObject(1, obj);
+            rs = preStat.executeQuery();
+            Object entity = null;
+            rs.next();
+            entity = mapping(rs, clazz);
+            return entity;
+        }
     }
 
     @Override

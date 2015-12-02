@@ -27,14 +27,14 @@ public interface QueryMethod {
      * @param clazz entityClass
      * @return List data list
      */
-    public abstract void queryByClass(Class<? extends Object> clazz) throws SQLException;
+    public abstract List<?> queryByClass(Class<? extends Object> clazz) throws SQLException;
 
     /**
      * conditional orm's select
      * @param clazz entityClass
      * @return List :data list
      */
-    public abstract void queryByClassAndParams(Class<? extends Object> clazz) throws SQLException;
+    public abstract List<?> queryByClassAndParams(Class<? extends Object> clazz) throws SQLException;
 
     /**
      * common select
@@ -42,7 +42,7 @@ public interface QueryMethod {
      * @return list of map
      * @throws SQLException
      */
-    public abstract void queryForMapList() throws SQLException;
+    public abstract List<Map<String, Object>> queryForMapList() throws SQLException;
 
     /**
      * conditional's select
@@ -51,7 +51,7 @@ public interface QueryMethod {
      * @return list of map
      * @throws SQLException
      */
-    public abstract void queryByParamsForMapList() throws SQLException;
+    public abstract List<Map<String, Object>> queryByParamsForMapList() throws SQLException;
 
     /**
      * common's select

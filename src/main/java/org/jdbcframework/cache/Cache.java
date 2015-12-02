@@ -20,17 +20,11 @@ public class Cache {
         return optionMap;
     }
 
-    public void setOptionMap(Map<Integer, String> optionMap) {
-        this.optionMap = optionMap;
-    }
 
     public Map<Integer, Object> getCacheMap() {
         return cacheMap;
     }
 
-    public void setCacheMap(Map<Integer, Object> cacheMap) {
-        this.cacheMap = cacheMap;
-    }
 
     public int getIndex() {
         return index;
@@ -52,9 +46,6 @@ public class Cache {
         optionMap.put(index, cmd);
     }
 
-    public boolean isContainsOption(Object obj){
-        return optionMap.containsValue(obj);
-    }
 
     public String getOptionByKey(Integer index){
         return optionMap.get(index);

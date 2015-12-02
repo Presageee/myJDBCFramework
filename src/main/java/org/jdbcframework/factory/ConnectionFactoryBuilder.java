@@ -8,22 +8,21 @@ import javax.sql.DataSource;
  */
 public class ConnectionFactoryBuilder {
     public static String driver = null;
+
     public static String username = null;
+
     public static String password = null;
+
     public static String url = null;
+
     public static int poolSize = -1;
+
     public static int loginTime = -1;
+
     public static String isUsePool = "NULL";
 
-    public ConnectionFactory getConnectionFactory() {
-        return connectionFactory;
-    }
-
-    public void setConnectionFactory(ConnectionFactory connectionFactory) {
-        this.connectionFactory = connectionFactory;
-    }
-
     private ConnectionFactory connectionFactory;
+
     private volatile static ConnectionFactoryBuilder connectionFactoryBuilder;
 
     private ConnectionFactoryBuilder(String dir) throws Exception{
@@ -51,6 +50,11 @@ public class ConnectionFactoryBuilder {
         }
         return connectionFactoryBuilder;
     }
+
+    /**
+     * dataSource initialization
+     * @return
+     */
     private DataSource dataSourceInit(){
         DataSource dataSource = null;
         if(poolSize == -1 && loginTime == -1){
@@ -66,6 +70,9 @@ public class ConnectionFactoryBuilder {
                     username, password, poolSize);
             return dataSource;
         }
-        //return dataSource;
+    }
+
+    public ConnectionFactory getConnectionFactory() {
+        return connectionFactory;
     }
 }
