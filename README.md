@@ -28,7 +28,7 @@ connections.update(entity);
  
 **exmple**   
 //query by params  
-List<entity> list = (List<entity>)connections.createQuery(sql, (Object[])params).query(mapping);   
+List<entity> list = (List<entity>)connections.createQuery().queryByClass(entity.class);   
 
 
 **Entity support Annotation**    
