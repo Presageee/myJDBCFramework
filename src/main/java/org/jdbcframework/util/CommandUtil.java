@@ -1,5 +1,8 @@
 package org.jdbcframework.util;
 
+import org.jdbcframework.exception.withoutPrimaryKeyException;
+import org.jdbcframework.exception.isNotTableException;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +21,9 @@ public class CommandUtil {
      */
     public String getSaveStatement(Object obj) throws Exception{
         Class<? extends Object> entityClass = obj.getClass();
+        if (isTable(entityClass)){
+            throw new isNotTableException(entityClass.getName() + "isn't table");
+        }
         StringBuffer sql = new StringBuffer();
         String className = getTableName(entityClass);
         sql.append("insert into " + className + " (");
@@ -47,6 +53,9 @@ public class CommandUtil {
      */
     public String getUpdateStatement(Object obj) throws Exception{
         Class<? extends Object> entityClass = obj.getClass();
+        if (isTable(entityClass)){
+            throw new isNotTableException(entityClass.getName() + "isn't table");
+        }
         StringBuffer sql = new StringBuffer();
         String className = getTableName(entityClass);
         sql.append("update " + className + " set ");
@@ -56,11 +65,9 @@ public class CommandUtil {
         for(Field field : fields){
             if(isNotColumn(field)) continue;
             if(isPrimaryKey(field)){
-                //Object value = getFieldValue(obj,field);
                 whereValue.append("where " + getPrimaryKeyFieldName(field) + "=?");
             }else{
                 if(isAutoColumn(field)) continue;
-                //Object value = getFieldValue(obj,field);
                 sql.append(temp + getColumnFieldName(field) + "=?");
                 temp = ",";
             }
@@ -78,6 +85,9 @@ public class CommandUtil {
      */
     public String getDeleteStatement(Object obj) throws Exception{
         Class<? extends Object> entityClass = obj.getClass();
+        if (isTable(entityClass)){
+            throw new isNotTableException(entityClass.getName() + "isn't table");
+        }
         StringBuffer sql = new StringBuffer();
         String className = getTableName(entityClass);
         sql.append("delete from " + className + " ");
@@ -103,6 +113,9 @@ public class CommandUtil {
      * @throws Exception
      */
     public String getQueryStatement(Class<? extends Object> clazz) throws Exception{
+        if (isTable(clazz)){
+            throw new isNotTableException(clazz.getName() + "isn't table");
+        }
         StringBuffer sql = new StringBuffer();
         sql.append("select * from " + getTableName(clazz));
         boolean isPrimaryKey = false;
@@ -114,7 +127,9 @@ public class CommandUtil {
                 break;
             }
         }
-        if(!isPrimaryKey) throw new Exception("have not primary key");
+        if (!isPrimaryKey){
+            throw new withoutPrimaryKeyException(clazz.getName() + "without primary key");
+        }
         System.out.println(sql);
         return new String(sql);
     }
@@ -126,6 +141,9 @@ public class CommandUtil {
      * @return query sql
      */
     public String getQueryStatement(Class<? extends Object> clazz, String condition){
+        if (isTable(clazz)){
+            throw new isNotTableException(clazz.getName() + "isn't table");
+        }
         StringBuffer sql = new StringBuffer();
         sql.append("select * from " + getTableName(clazz));
         if(condition != null){
@@ -196,6 +214,5 @@ public class CommandUtil {
         list.add(createPrimaryKeyParam(obj));
         return list.toArray();
     }
-
 
 }

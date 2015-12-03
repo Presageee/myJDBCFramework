@@ -10,6 +10,21 @@ import java.util.Objects;
  * Created by LJT on 2015/11/28.
  */
 public class TableUtil {
+
+    /**
+     * if class is table,return true;
+     * @param clazz entity class
+     * @return
+     */
+    public final static boolean isTable(Class<? extends Object> clazz){
+        TableName tableName = clazz.getAnnotation(TableName.class);
+        if (tableName == null){
+            return false;
+        }else {
+            return true;
+        }
+    }
+
     /**
      * if field is PrimaryKey,return true;
      * @param field annotation field
@@ -17,7 +32,7 @@ public class TableUtil {
      */
     public final static boolean isPrimaryKey(Field field){
         PrimaryKey primaryKey = field.getAnnotation(PrimaryKey.class);
-        if(primaryKey == null){
+        if (primaryKey == null){
             return false;
         }else {
             return true;
@@ -31,9 +46,9 @@ public class TableUtil {
      */
     public final static boolean isAutoColumn(Field field){
         AutoColumn autoColumn = field.getAnnotation(AutoColumn.class);
-        if(autoColumn == null){
+        if (autoColumn == null){
             return false;
-        }else{
+        }else {
             return true;
         }
     }
@@ -45,21 +60,22 @@ public class TableUtil {
      */
     public final static boolean isNotColumn(Field field){
         NotColumn notColumn = field.getAnnotation(NotColumn.class);
-        if(notColumn == null){
+        if (notColumn == null){
             return false;
-        }else{
+        }else {
             return true;
         }
     }
+
     /**
      * if setValue at annotation,return value.else return ClassName
      * @param clazz annotation class
      * @return
      */
     public final static String getTableName(Class<? extends Object> clazz){
-        if("".equals(clazz.getAnnotation(TableName.class).value())){
+        if ("".equals(clazz.getAnnotation(TableName.class).value())){
             return clazz.getName().substring(clazz.getName().lastIndexOf(".") + 1);
-        }else{
+        }else {
             return clazz.getAnnotation(TableName.class).value();
         }
     }
@@ -71,10 +87,10 @@ public class TableUtil {
      */
     public final static String getColumnFieldName(Field field){
         Column column = field.getAnnotation(Column.class);
-        if(column != null){
-            if("".equals(column.value())){
+        if (column != null){
+            if ("".equals(column.value())){
                 return field.getName();
-            }else{
+            }else {
                 return column.value();
             }
         }
@@ -88,10 +104,10 @@ public class TableUtil {
      */
     public final static String getPrimaryKeyFieldName(Field field){
         PrimaryKey primaryKey = field.getAnnotation(PrimaryKey.class);
-        if(primaryKey != null){
-            if("".equals(primaryKey.value())){
+        if (primaryKey != null){
+            if ("".equals(primaryKey.value())){
                 return field.getName();
-            }else{
+            }else {
                 return primaryKey.value();
             }
         }
@@ -105,8 +121,8 @@ public class TableUtil {
      */
     public final static String getAutoColumnFieldName(Field field){
         AutoColumn autoColumn = field.getAnnotation(AutoColumn.class);
-        if(autoColumn != null){
-            if("".equals(autoColumn.value())){
+        if (autoColumn != null){
+            if ("".equals(autoColumn.value())){
                 return field.getName();
             }else {
                 return autoColumn.value();
