@@ -21,8 +21,8 @@ public class CommandUtil {
      */
     public String getSaveStatement(Object obj) throws Exception{
         Class<? extends Object> entityClass = obj.getClass();
-        if (isTable(entityClass)){
-            throw new isNotTableException(entityClass.getName() + "isn't table");
+        if (!isTable(entityClass)){
+            throw new isNotTableException(entityClass.getName() + " isn't table");
         }
         StringBuffer sql = new StringBuffer();
         String className = getTableName(entityClass);
@@ -53,8 +53,8 @@ public class CommandUtil {
      */
     public String getUpdateStatement(Object obj) throws Exception{
         Class<? extends Object> entityClass = obj.getClass();
-        if (isTable(entityClass)){
-            throw new isNotTableException(entityClass.getName() + "isn't table");
+        if (!isTable(entityClass)){
+            throw new isNotTableException(entityClass.getName() + " isn't table");
         }
         StringBuffer sql = new StringBuffer();
         String className = getTableName(entityClass);
@@ -85,8 +85,8 @@ public class CommandUtil {
      */
     public String getDeleteStatement(Object obj) throws Exception{
         Class<? extends Object> entityClass = obj.getClass();
-        if (isTable(entityClass)){
-            throw new isNotTableException(entityClass.getName() + "isn't table");
+        if (!isTable(entityClass)){
+            throw new isNotTableException(entityClass.getName() + " isn't table");
         }
         StringBuffer sql = new StringBuffer();
         String className = getTableName(entityClass);
@@ -113,8 +113,8 @@ public class CommandUtil {
      * @throws Exception
      */
     public String getQueryStatement(Class<? extends Object> clazz) throws Exception{
-        if (isTable(clazz)){
-            throw new isNotTableException(clazz.getName() + "isn't table");
+        if (!isTable(clazz)){
+            throw new isNotTableException(clazz.getName() + " isn't table");
         }
         StringBuffer sql = new StringBuffer();
         sql.append("select * from " + getTableName(clazz));
@@ -141,8 +141,8 @@ public class CommandUtil {
      * @return query sql
      */
     public String getQueryStatement(Class<? extends Object> clazz, String condition){
-        if (isTable(clazz)){
-            throw new isNotTableException(clazz.getName() + "isn't table");
+        if (!isTable(clazz)){
+            throw new isNotTableException(clazz.getName() + " isn't table");
         }
         StringBuffer sql = new StringBuffer();
         sql.append("select * from " + getTableName(clazz));

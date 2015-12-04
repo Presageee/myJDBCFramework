@@ -30,6 +30,11 @@ public class PageUtil {
         this.pageIndex = pageIndex;
     }
 
+    /**
+     * add limit
+     * @param sql select sql
+     * @return new sql
+     */
     public String getPageCmd(String sql){
         StringBuffer tmp = new StringBuffer();
         tmp.append(sql);
@@ -37,7 +42,7 @@ public class PageUtil {
         return tmp.toString();
     }
 
-    private int getBeginIndex(){
+    public int getBeginIndex(){
         return (pageIndex - 1) * size;
     }
 }

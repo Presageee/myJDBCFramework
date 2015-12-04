@@ -1,9 +1,6 @@
 package org.jdbcframework.entity;
 
-import org.jdbcframework.annotation.AutoColumn;
-import org.jdbcframework.annotation.Column;
-import org.jdbcframework.annotation.PrimaryKey;
-import org.jdbcframework.annotation.TableName;
+import org.jdbcframework.annotation.*;
 
 import java.sql.Timestamp;
 
@@ -24,6 +21,17 @@ public class News {
 
     @Column
     private Timestamp timestamp;
+
+    @NotColumn
+    private int root;
+
+    public int getRoot() {
+        return root;
+    }
+
+    public void setRoot(int root) {
+        this.root = root;
+    }
 
     public int getId() {
         return id;
