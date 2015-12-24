@@ -25,8 +25,7 @@ public class ConnectionFactoryBuilder {
 
     private volatile static ConnectionFactoryBuilder connectionFactoryBuilder;
 
-    private ConnectionFactoryBuilder(String dir) throws Exception{
-        new PropertiesLoad().propertiesLoad(dir);
+    private ConnectionFactoryBuilder() throws Exception{
         if(isUsePool == null || isUsePool.equals("FALSE")){
             connectionFactory = ConnectionFactory.getConnectionFactory(driver);
         }else{
@@ -40,11 +39,11 @@ public class ConnectionFactoryBuilder {
      * @return
      * @throws Exception
      */
-    public static ConnectionFactoryBuilder getConnectionFactoryBuilder(String path) throws Exception{
+    public static ConnectionFactoryBuilder getConnectionFactoryBuilder() throws Exception{
         if(connectionFactoryBuilder == null){
             synchronized (ConnectionFactoryBuilder.class){
                 if(connectionFactoryBuilder == null){
-                    connectionFactoryBuilder = new ConnectionFactoryBuilder(path);
+                    connectionFactoryBuilder = new ConnectionFactoryBuilder();
                 }
             }
         }

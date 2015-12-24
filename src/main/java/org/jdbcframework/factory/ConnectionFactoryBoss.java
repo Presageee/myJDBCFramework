@@ -5,8 +5,6 @@ package org.jdbcframework.factory;
  */
 public class ConnectionFactoryBoss {
 
-    //.properties path
-    public static String path;
 
     /**
      * get connectionFactoryBuilder by connectionFactoryBoss
@@ -14,6 +12,6 @@ public class ConnectionFactoryBoss {
      * @throws Exception
      */
     public static ConnectionFactoryBuilder getConnectionFactoryBuilderByBoss() throws Exception{
-        return ConnectionFactoryBuilder.getConnectionFactoryBuilder(path);
+        return ConnectionFactoryBuilder.getConnectionFactoryBuilder();
     }
 }

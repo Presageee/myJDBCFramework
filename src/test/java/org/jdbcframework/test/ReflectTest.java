@@ -1,17 +1,15 @@
 package org.jdbcframework.test;
 
 import junit.framework.*;
-import org.jdbcframework.base.Query;
+import org.jdbcframework.entity.NewsDao;
 import org.jdbcframework.factory.ConnectionFactory;
 import org.jdbcframework.factory.ConnectionFactoryBoss;
 import org.jdbcframework.base.Connections;
 import org.jdbcframework.entity.News;
 import org.jdbcframework.properties.PropertiesLoad;
-import org.jdbcframework.transaction.Transaction;
 import org.junit.Before;
 
 import java.sql.Timestamp;
-import java.util.List;
 
 
 /**
@@ -81,7 +79,7 @@ public class ReflectTest extends TestCase{
         }
     }*/
 
-    public void testPageQuery() throws Exception{
+/*    public void testPageQuery() throws Exception{
         connections = connectionFactory.getConnections();
         Query query = connections.createQuery("select * from news");
         List<News> list = (List<News>)query.getPageQuery(News.class, 2, 2);
@@ -89,7 +87,18 @@ public class ReflectTest extends TestCase{
         for(int i = 0; i < list.size(); i++){
             System.out.println(list.get(i).getTitle() + list.get(i).getUrl());
         }
+    }*/
+
+    public void testInsertOneM() throws Exception{
+        connections = connectionFactory.getConnections();
+        NewsDao newsDao = (NewsDao) NewsDao.getAuthInstance(NewsDao.class);
+        newsDao.setConnections(connections);
+        News news = new News();
+        news.setTimestamp(new Timestamp(System.currentTimeMillis()));
+        news.setUrl("aop");
+        news.setTitle("hahahahahah");
+        news.setRoot(1);
+        news.setId(240007);
+        newsDao.update(news);
     }
-
-
 }

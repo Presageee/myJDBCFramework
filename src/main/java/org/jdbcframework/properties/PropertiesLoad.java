@@ -14,10 +14,10 @@ import java.util.Properties;
 public class PropertiesLoad {
     /**
      * Load config
-     * @param path .properties path
+     * @param tmpPath .properties path
      */
-    public static void config(String path){
-        ConnectionFactoryBoss.path = path;
+    public static void config(String tmpPath) throws Exception{
+        propertiesLoad(tmpPath);
     }
 
     /**
@@ -25,10 +25,10 @@ public class PropertiesLoad {
      * @param path properties path
      * @throws Exception
      */
-    public void propertiesLoad(String path) throws Exception{
+    private static void propertiesLoad(String path) throws Exception{
         Properties properties = new Properties();
-        String tmppath = System.getProperty("user.dir");
-        InputStream inputStream = new BufferedInputStream(new FileInputStream(tmppath + "/src" + path));
+        String tmpPath = System.getProperty("user.dir");
+        InputStream inputStream = new BufferedInputStream(new FileInputStream(tmpPath + "/src" + path));
         properties.load(inputStream);
         ConnectionFactoryBuilder.driver = properties.getProperty("driver");
         ConnectionFactoryBuilder.url = properties.getProperty("url");

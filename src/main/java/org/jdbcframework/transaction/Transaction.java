@@ -13,13 +13,22 @@ import static org.jdbcframework.util.CommandUtil.*;
  */
 public class Transaction {
 
-    private Connection conn;
+    public static final int READ_UNCOMMITED = 1;
+
+    public static final int READ_COMMITED = 2;
+
+    public static final int REPEATABLE_READ = 3;
+
+    public static final int SERIALIZABLE = 4;
+
+    private Connection conn = null;
 
     private Connections connections;
 
+
     public Transaction(Connection conn, Connections connections) throws SQLException{
         this.conn = conn;
-        this.connections = connections;
+        this.connections = connections;//??maybe cause a deadlock???i don't know
         conn.setAutoCommit(false);
     }
 
@@ -52,5 +61,23 @@ public class Transaction {
         }
     }
 
+    public void setTransaction(int value) throws SQLException{
+        switch (value){
+            case READ_COMMITED:
+                conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+                break;
+            case READ_UNCOMMITED:
+                conn.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
+                break;
+            case REPEATABLE_READ:
+                conn.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
+                break;
+            case SERIALIZABLE:
+                conn.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+                break;
+            default:
+                break;
+        }
+    }
 
 }
