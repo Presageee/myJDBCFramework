@@ -39,7 +39,7 @@ List<entity> list = (List<entity>)connections.createQuery().queryByClass(entity.
 @AutoColumn   
 
 **Method support annotation**  
-@AutoTransactionalControl(it is dependency for cglib)(this is annotation of method,must have a method that name is getConnections)
+@AutoTransactionalControl(it is dependency for cglib)(This is annotation of method,if some method of class have  annotation , the class should have a method that name is getConnections)
 
 ## *.Properties
 **base**:  
