@@ -2,7 +2,7 @@
 This is a easy orm Framework.It is Built by gradle.(only support mysql)  
 
 ## Environment   
-need jdk1.5+ gradle 2.2+  
+need jdk1.5+ 
 
 ## Update
 
@@ -36,7 +36,10 @@ List<entity> list = (List<entity>)connections.createQuery().queryByClass(entity.
 @PrimaryKey    
 @Column    
 @NotColumn    
-@AutoColumn    
+@AutoColumn   
+
+**Method support annotation**  
+@AutoTransactionalControl(it is dependency for cglib)(this is annotation of method,must have a method that name is getConnections)
 
 ## *.Properties
 **base**:  
