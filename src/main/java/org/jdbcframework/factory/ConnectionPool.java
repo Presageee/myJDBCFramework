@@ -14,7 +14,9 @@ import java.util.logging.Logger;
  */
 public class ConnectionPool implements DataSource{
     private int poolSize;
+
     private int loginTime;
+
     private LinkedList<Connection> pool = new LinkedList<Connection>();
 
     public ConnectionPool(String driver, String url, String username, String password){

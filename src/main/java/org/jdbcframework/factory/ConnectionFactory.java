@@ -14,6 +14,8 @@ import java.sql.SQLException;
 public class ConnectionFactory {
     private volatile static ConnectionFactory connectionFactory;
 
+    private DataSource dataSource = null;
+
     private ConnectionFactory(String driver) throws ClassNotFoundException{
         Class.forName(driver);
     }
@@ -74,8 +76,6 @@ public class ConnectionFactory {
         }
         return conn;
     }
-
-    private DataSource dataSource = null;
 
     public void setDataSource(DataSource dataSource) {
         this.dataSource = dataSource;

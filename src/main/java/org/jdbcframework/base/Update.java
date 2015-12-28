@@ -10,7 +10,7 @@ import java.sql.SQLException;
 /**
  * Created by LJT on 2015/11/26.
  */
-public class Update implements UpdateMethod{
+public class Update implements UpdateMethod {
     private Connection conn;
 
     private PreparedStatement preStat;
@@ -21,21 +21,21 @@ public class Update implements UpdateMethod{
 
     private Object[] params = null;
 
-    public Update(String sql, Connection conn){
+    public Update(String sql, Connection conn) {
         this.sql = sql;
         this.conn = conn;
     }
 
-    public Update(String sql, Connection conn, Object[] params){
+    public Update(String sql, Connection conn, Object[] params) {
         this.sql = sql;
         this.conn = conn;
         this.params = params;
     }
 
-    private PreparedStatement getPreparedStatement() throws SQLException{
-        PreparedStatement tmpPreStat= conn.prepareStatement(sql);
-        for(int i = 0; i < params.length; i++){
-            tmpPreStat.setObject(i+1, params[i]);
+    private PreparedStatement getPreparedStatement() throws SQLException {
+        PreparedStatement tmpPreStat = conn.prepareStatement(sql);
+        for (int i = 0; i < params.length; i++) {
+            tmpPreStat.setObject(i + 1, params[i]);
         }
         return tmpPreStat;
     }
@@ -48,7 +48,7 @@ public class Update implements UpdateMethod{
     }
 
     @Override
-    public int insertParams() throws SQLException{
+    public int insertParams() throws SQLException {
         preStat = getPreparedStatement();
         int num = preStat.executeUpdate();
         return num;
@@ -56,7 +56,7 @@ public class Update implements UpdateMethod{
     }
 
     @Override
-    public int delete() throws SQLException{
+    public int delete() throws SQLException {
         preStat = conn.prepareStatement(sql);
         int num = preStat.executeUpdate();
         return num;
@@ -70,7 +70,7 @@ public class Update implements UpdateMethod{
     }
 
     @Override
-    public int update()throws SQLException{
+    public int update() throws SQLException {
         preStat = conn.prepareStatement(sql);
         int num = preStat.executeUpdate();
         return num;

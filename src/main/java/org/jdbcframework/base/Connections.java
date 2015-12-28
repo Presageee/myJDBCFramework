@@ -4,6 +4,7 @@ import org.jdbcframework.baseImpl.ConnectionMethod;
 import org.jdbcframework.cache.Cache;
 import org.jdbcframework.transaction.Transaction;
 import org.jdbcframework.util.CommandUtil;
+
 import static org.jdbcframework.classmap.ReflectEntity.*;
 
 import java.sql.*;
@@ -25,44 +26,44 @@ public class Connections implements ConnectionMethod {
 
     private Cache cache;
 
-    public Connections(Connection conn, CommandUtil util){
+    public Connections(Connection conn, CommandUtil util) {
         this.conn = conn;
         this.util = util;
         this.cache = new Cache();
     }
 
     public void close() throws SQLException {
-        cache.cacheClear();
+        cache.clearCache();
         close(conn);
         close(preStat);
         close(rs);
     }
 
-    public void syncBufferToDataBase(String cmd, Object obj) throws Exception{
-        if (cmd.equals("save")){
+    public void syncBufferToDataBase(String cmd, Object obj) throws Exception {
+        if (cmd.equals("save")) {
             saved(obj);
-        }else if (cmd.equals("update")){
+        } else if (cmd.equals("update")) {
             updated(obj);
-        }else if (cmd.equals("delete")){
+        } else if (cmd.equals("delete")) {
             deleted(obj);
         }
     }
 
-    private void saved(Object obj) throws Exception{
+    private void saved(Object obj) throws Exception {
         String sql = util.getSaveStatement(obj);
         preStat = conn.prepareStatement(sql);
         setPreStatParams(preStat, util.createInsertParams(obj));
         preStat.executeUpdate();
     }
 
-    private void updated(Object obj) throws Exception{
+    private void updated(Object obj) throws Exception {
         String sql = util.getUpdateStatement(obj);
         preStat = conn.prepareStatement(sql);
         setPreStatParams(preStat, util.createUpdateParams(obj));
         preStat.executeUpdate();
     }
 
-    private void deleted(Object obj) throws Exception{
+    private void deleted(Object obj) throws Exception {
         String sql = util.getDeleteStatement(obj);
         preStat = conn.prepareStatement(sql);
         preStat.setObject(1, util.createPrimaryKeyParam(obj));
@@ -77,16 +78,16 @@ public class Connections implements ConnectionMethod {
         this.cache = cache;
     }
 
-    private void setPreStatParams(PreparedStatement preStat, Object ... objects) throws Exception{
-        if (objects != null && objects.length > 0){
-            for (int i = 0; i < objects.length; i++){
+    private void setPreStatParams(PreparedStatement preStat, Object... objects) throws Exception {
+        if (objects != null && objects.length > 0) {
+            for (int i = 0; i < objects.length; i++) {
                 preStat.setObject(i + 1, objects[i]);
             }
         }
     }
 
     @Override
-    public Transaction beginTransaction() throws SQLException{
+    public Transaction beginTransaction() throws SQLException {
         return new Transaction(conn, this);
     }
 
@@ -112,8 +113,8 @@ public class Connections implements ConnectionMethod {
 
 
     @Override
-    public void close(Connection conn) throws SQLException{
-        if (conn != null){
+    public void close(Connection conn) throws SQLException {
+        if (conn != null) {
             if (!conn.getAutoCommit())
                 conn.setAutoCommit(true);
             conn.close();
@@ -121,27 +122,27 @@ public class Connections implements ConnectionMethod {
     }
 
     @Override
-    public void close(PreparedStatement preStat) throws SQLException{
+    public void close(PreparedStatement preStat) throws SQLException {
         if (preStat != null)
             preStat.close();
     }
 
     @Override
-    public void close(ResultSet rs) throws SQLException{
+    public void close(ResultSet rs) throws SQLException {
         if (rs != null)
             rs.close();
     }
 
     @Override
     public void save(Object obj) throws Exception {
-        if (!cache.isContainsCache(obj)){
-            cache.cacheAdd(cache.getIndex(), obj);
-            cache.optionAdd(cache.getIndex(), "save");
+        if (!cache.isContainsCache(obj)) {
+            cache.addCache(cache.getIndex(), obj);
+            cache.addOption(cache.getIndex(), "save");
             cache.setIndex(cache.getIndex() + 1);
-        }else {
-            if (!cache.isHaveCmd(obj, "save")){
-                cache.cacheAdd(cache.getIndex(), obj);
-                cache.optionAdd(cache.getIndex(), "save");
+        } else {
+            if (!cache.isHaveCmd(obj, "save")) {
+                cache.addCache(cache.getIndex(), obj);
+                cache.addOption(cache.getIndex(), "save");
                 cache.setIndex(cache.getIndex() + 1);
             }
         }
@@ -149,14 +150,14 @@ public class Connections implements ConnectionMethod {
 
     @Override
     public void delete(Object obj) throws Exception {
-        if (!cache.isContainsCache(obj)){
-            cache.cacheAdd(cache.getIndex(), obj);
-            cache.optionAdd(cache.getIndex(), "delete");
+        if (!cache.isContainsCache(obj)) {
+            cache.addCache(cache.getIndex(), obj);
+            cache.addOption(cache.getIndex(), "delete");
             cache.setIndex(cache.getIndex() + 1);
-        }else {
-            if (!cache.isHaveCmd(obj, "delete")){
-                cache.cacheAdd(cache.getIndex(), obj);
-                cache.optionAdd(cache.getIndex(), "delete");
+        } else {
+            if (!cache.isHaveCmd(obj, "delete")) {
+                cache.addCache(cache.getIndex(), obj);
+                cache.addOption(cache.getIndex(), "delete");
                 cache.setIndex(cache.getIndex() + 1);
             }
         }
@@ -164,14 +165,14 @@ public class Connections implements ConnectionMethod {
 
     @Override
     public void update(Object obj) throws Exception {
-        if (!cache.isContainsCache(obj)){
-            cache.cacheAdd(cache.getIndex(), obj);
-            cache.optionAdd(cache.getIndex(), "update");
+        if (!cache.isContainsCache(obj)) {
+            cache.addCache(cache.getIndex(), obj);
+            cache.addOption(cache.getIndex(), "update");
             cache.setIndex(cache.getIndex() + 1);
-        }else {
-            if (!cache.isHaveCmd(obj, "update")){
-                cache.cacheAdd(cache.getIndex(), obj);
-                cache.optionAdd(cache.getIndex(), "update");
+        } else {
+            if (!cache.isHaveCmd(obj, "update")) {
+                cache.addCache(cache.getIndex(), obj);
+                cache.addOption(cache.getIndex(), "update");
                 cache.setIndex(cache.getIndex() + 1);
             }
         }
@@ -179,9 +180,9 @@ public class Connections implements ConnectionMethod {
 
     @Override
     public Object get(Class<? extends Object> clazz, Object obj) throws Exception {
-        if (cache.getCacheByKey((Integer)obj) != null){
-            return cache.getCacheByKey((Integer)obj);
-        }else {
+        if (cache.getCacheByKey((Integer) obj) != null) {
+            return cache.getCacheByKey((Integer) obj);
+        } else {
             String sql = util.getQueryStatement(clazz);
             preStat = conn.prepareStatement(sql);
             preStat.setObject(1, obj);
@@ -194,12 +195,12 @@ public class Connections implements ConnectionMethod {
     }
 
     @Override
-    public List<?> queryAll(Class<? extends Object> clazz, String condition) throws Exception {
+    public List<?> getAll(Class<? extends Object> clazz, String condition) throws Exception {
         String sql = util.getQueryStatement(clazz, null);
         preStat = conn.prepareStatement(sql);
         rs = preStat.executeQuery();
         List<Object> list = new ArrayList<Object>();
-        while (rs.next()){
+        while (rs.next()) {
             list.add(mapping(rs, clazz));
         }
         return list;

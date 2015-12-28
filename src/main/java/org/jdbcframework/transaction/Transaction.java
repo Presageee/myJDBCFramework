@@ -13,9 +13,9 @@ import static org.jdbcframework.util.CommandUtil.*;
  */
 public class Transaction {
 
-    public static final int READ_UNCOMMITED = 1;
+    public static final int READ_UNCOMMITTED = 1;
 
-    public static final int READ_COMMITED = 2;
+    public static final int READ_COMMITTED = 2;
 
     public static final int REPEATABLE_READ = 3;
 
@@ -63,10 +63,10 @@ public class Transaction {
 
     public void setTransaction(int value) throws SQLException{
         switch (value){
-            case READ_COMMITED:
+            case READ_COMMITTED:
                 conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
                 break;
-            case READ_UNCOMMITED:
+            case READ_UNCOMMITTED:
                 conn.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
                 break;
             case REPEATABLE_READ:

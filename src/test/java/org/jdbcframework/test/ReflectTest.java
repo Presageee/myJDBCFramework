@@ -1,15 +1,15 @@
 package org.jdbcframework.test;
 
 import junit.framework.*;
-import org.jdbcframework.entity.NewsDao;
 import org.jdbcframework.factory.ConnectionFactory;
 import org.jdbcframework.factory.ConnectionFactoryBoss;
 import org.jdbcframework.base.Connections;
 import org.jdbcframework.entity.News;
 import org.jdbcframework.properties.PropertiesLoad;
+import org.jdbcframework.transaction.Transaction;
 import org.junit.Before;
 
-import java.sql.Timestamp;
+import java.util.List;
 
 
 /**
@@ -68,28 +68,32 @@ public class ReflectTest extends TestCase{
         connections.close();
     }*/
 
-    /*public void test4() throws Exception{
+/*    public void test4() throws Exception{
         connections = connectionFactory.getConnections();
         Transaction tx = connections.beginTransaction();
-        List<News> list = (List<News>)connections.queryAll(News.class, null);
+        for(int i = 0; i < 10000; i++) {
+            News news = new News();
+            news.setUrl("asd");
+            news.setTitle("asd");
+            news.setTimestamp(new Timestamp(System.currentTimeMillis() + i));
+            connections.save(news);
+        }
         tx.commit();
         connections.close();
-        for(int i = 0; i < list.size(); i++){
-            System.out.println(list.get(i).getUrl());
-        }
     }*/
 
-/*    public void testPageQuery() throws Exception{
+    public void testPageQuery() throws Exception{
         connections = connectionFactory.getConnections();
-        Query query = connections.createQuery("select * from news");
-        List<News> list = (List<News>)query.getPageQuery(News.class, 2, 2);
+        Transaction tx = connections.beginTransaction();
+        long a = System.currentTimeMillis();
+        List<News> list = (List<News>)connections.getAll(News.class, new String());
+        tx.commit();
         connections.close();
-        for(int i = 0; i < list.size(); i++){
-            System.out.println(list.get(i).getTitle() + list.get(i).getUrl());
-        }
-    }*/
+        long b = System.currentTimeMillis();
+        System.out.println((double)(b-a)/1000);
+    }
 
-    public void testInsertOneM() throws Exception{
+/*    public void testInsertOneM() throws Exception{
         connections = connectionFactory.getConnections();
         NewsDao newsDao = (NewsDao) NewsDao.getAuthInstance(NewsDao.class);
         newsDao.setConnections(connections);
@@ -98,7 +102,6 @@ public class ReflectTest extends TestCase{
         news.setUrl("aop");
         news.setTitle("hahahahahah");
         news.setRoot(1);
-        news.setId(240007);
-        newsDao.update(news);
-    }
+        newsDao.save(news);
+    }*/
 }

@@ -13,5 +13,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface AutoTransactionalControl {
-    int value() default Transaction.READ_COMMITED;
+    int value() default Transaction.READ_COMMITTED;
 }

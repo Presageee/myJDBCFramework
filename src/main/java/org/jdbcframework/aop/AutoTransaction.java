@@ -7,7 +7,7 @@ import java.lang.reflect.ParameterizedType;
 /**
  * Created by LJT on 2015/12/23.
  */
-public class AutoTransaction {
+public class AutoTransaction<T> {
 
     /**
      * Dynamically generate a new class
@@ -20,4 +20,13 @@ public class AutoTransaction {
         enhancer.setCallback(new TransactionAroundAdvice());
         return enhancer.create();
     }
+    /**
+     * Generics
+     */
+    /*public static <T> Object getAuthInstance(T obj){
+        Enhancer enhancer = new Enhancer();
+        enhancer.setSuperclass(obj.getClass());
+        enhancer.setCallback(new TransactionAroundAdvice());
+        return enhancer.create();
+    }*/
 }

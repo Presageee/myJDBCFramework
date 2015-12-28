@@ -32,7 +32,7 @@ public class Cache {
      * @param index key
      * @param obj value
      */
-    public void cacheAdd(Integer index, Object obj){
+    public void addCache(Integer index, Object obj){
         cacheMap.put(index, obj);
     }
 
@@ -50,7 +50,7 @@ public class Cache {
      * @param index key
      * @param cmd value
      */
-    public void optionAdd(Integer index, String cmd){
+    public void addOption(Integer index, String cmd){
         optionMap.put(index, cmd);
     }
 
@@ -98,7 +98,7 @@ public class Cache {
     /**
      * clear cache map and option map and index
      */
-    public void cacheClear(){
+    public void clearCache(){
         index = 0;
         cacheMap.clear();
         optionMap.clear();

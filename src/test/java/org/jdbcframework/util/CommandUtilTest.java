@@ -76,8 +76,8 @@ public class CommandUtilTest extends TestCase {
     @Test
     public void testCreateInsertParams() throws Exception{
         Object[] objects = commandUtil.createInsertParams(n);
-        list.add((Object)n.getUrl());
-        list.add((Object)n.getTitle());
+        list.add((Object) n.getUrl());
+        list.add((Object) n.getTitle());
         list.add((Object) n.getTimestamp());
         assertArrayEquals(list.toArray(), objects);
     }
@@ -92,10 +92,10 @@ public class CommandUtilTest extends TestCase {
     @Test
     public void testCreateUpdateParams() throws Exception{
         Object[] objects = commandUtil.createUpdateParams(n);
-        list.add((Object)n.getUrl());
-        list.add((Object)n.getTitle());
+        list.add((Object) n.getUrl());
+        list.add((Object) n.getTitle());
         list.add((Object) n.getTimestamp());
-        list.add((Object)1);
+        list.add((Object) 1);
         assertArrayEquals(list.toArray(), objects);
     }
 }

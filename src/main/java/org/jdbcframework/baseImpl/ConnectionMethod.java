@@ -103,6 +103,6 @@ public interface ConnectionMethod {
      * @return
      * @throws Exception
      */
-    public abstract List<?> queryAll(Class<? extends Object> clazz, String where) throws Exception;
+    public abstract List<?> getAll(Class<? extends Object> clazz, String where) throws Exception;
 
 }
