@@ -12,8 +12,8 @@ Added caching
 
 1.put the database.properties in the /src  
 2.PropertiesLoad.config(properties name)  
-3.init and get ConnectionFactoryBuilder by ConnectionFactoryBoss  
-4.get ConnectionFactory  
+3.init ConnectionFactoryBuilder by ConnectionFactoryBoss  
+4.get ConnectionFactory by ConnectionFactoryBuilder    
 5.get Connections  
 6.begin transaction  
 ...   
